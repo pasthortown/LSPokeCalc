@@ -1,0 +1,59 @@
+<nav class="sidebar" [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }">
+   <div class="list-group">
+      <a [routerLink]="['/main']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+         <i class="fas fa-tachometer-alt"></i>&nbsp; <span>Main</span>
+      </a>
+      <div class="nested-menu">
+         <a class="list-group-item" (click)="addExpandClass('bdd lspokecalc')">
+            <span class="fas fa-database"></span>&nbsp;BDD LSPOKECALC
+         </a>
+         <li class="nested" [class.expand]="showMenu === 'bdd lspokecalc'">
+            <ul class="submenu">
+
+
+               <!--LSPokeCalc-->
+
+               <li>
+                  <a [routerLink]="['/pokemon']" [routerLinkActive]="['router-link-active']" class="list-group-item">Pokemon </a>
+               </li>
+               <li>
+                  <a [routerLink]="['/statistic']" [routerLinkActive]="['router-link-active']" class="list-group-item">Statistic </a>
+               </li>
+               <li>
+                  <a [routerLink]="['/statistic_type']" [routerLinkActive]="['router-link-active']" class="list-group-item">StatisticType </a>
+               </li>
+               <li>
+                  <a [routerLink]="['/pokemon_type']" [routerLinkActive]="['router-link-active']" class="list-group-item">PokemonType </a>
+               </li>
+               <li>
+                  <a [routerLink]="['/ability']" [routerLinkActive]="['router-link-active']" class="list-group-item">Ability </a>
+               </li>
+               <li>
+                  <a [routerLink]="['/movement']" [routerLinkActive]="['router-link-active']" class="list-group-item">Movement </a>
+               </li>
+               <li>
+                  <a [routerLink]="['/nature']" [routerLinkActive]="['router-link-active']" class="list-group-item">Nature </a>
+               </li>
+               <li>
+                  <a [routerLink]="['/advantage']" [routerLinkActive]="['router-link-active']" class="list-group-item">Advantage </a>
+               </li>
+            </ul>
+         </li>
+      </div>
+      <div class="nested-menu">
+         <a class="list-group-item" (click)="addExpandClass('profile')">
+            <span><img class="rounded-circle" src="{{profileImg}}" width="32px" height="32px"></span>&nbsp;<small>{{ user.name }}</small>
+         </a>
+         <li class="nested" [class.expand]="showMenu === 'profile'">
+            <ul class="submenu">
+               <li>
+                  <a [routerLink]="['/profile']" [routerLinkActive]="['router-link-active']" class="list-group-item">Perfil </a>
+               </li>
+               <li>
+                  <a [routerLink]="['/login']" (click)="logOut()"><span>&nbsp;Cerrar Sesión</span></a>
+               </li>
+            </ul>
+         </li>
+      </div>
+   </div>
+</nav>

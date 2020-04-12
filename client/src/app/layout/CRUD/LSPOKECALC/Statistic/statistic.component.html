@@ -1,0 +1,141 @@
+<div class="row">
+   <h1 class="col-12 text-right">
+      Statistic
+   </h1>
+</div>
+<div class="row">
+   <div class="col-12">
+      <div class="btn-toolbar" role="toolbar">
+         <div class="btn-group mr-2" role="group">
+            <button type="button" class="btn btn-primary" title="Actualizar" (click)="goToPage(currentPage)"><i class="fas fa-sync"></i></button>
+         </div>
+         <div class="btn-group mr-2" role="group">
+            <button type="button" title="Nuevo" class="btn btn-success" (click)="newStatistic(content)"><i class="fas fa-file"></i></button>
+            <button type="button" title="Editar" class="btn btn-warning" (click)="editStatistic(content)"><i class="fas fa-edit"></i></button>
+         </div>
+         <div class="btn-group mr-2" role="group">
+            <button type="button" title="Eliminar" class="btn btn-danger" (click)="deleteStatistic()"><i class="fas fa-trash"></i></button>
+         </div>
+         <div class="btn-group mr-2" role="group">
+            <button type="button" title="BackUp" class="btn btn-dark" (click)="backup()"><i class="fas fa-download"></i></button>
+            <button type="button" title="Exportar CSV" class="btn btn-dark" (click)="toCSV()"><i class="fas fa-file-csv"></i></button>
+            <button type="button" title="Cargar" class="btn btn-dark" (click)="uploadInput.click()"><i class="fas fa-upload"></i></button>
+            <input [hidden]="true" type="file" class="form-control" #uploadInput (change)="decodeUploadFile($event)" accept=".json"/>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="row">
+   <div class="col-12">
+      <table class="table table-hover mt-2">
+         <thead>
+            <tr>
+               <th>Seleccionado</th>
+               <th>hp</th>
+               <th>attack</th>
+               <th>defense</th>
+               <th>special_attack</th>
+               <th>special_defense</th>
+               <th>speed</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr *ngFor="let statistic of statistics" (click)="selectStatistic(statistic)">
+               <td class="text-right"><span *ngIf="statisticSelected === statistic" class="far fa-hand-point-right"></span></td>
+               <td>{{statistic.hp}}</td>
+               <td>{{statistic.attack}}</td>
+               <td>{{statistic.defense}}</td>
+               <td>{{statistic.special_attack}}</td>
+               <td>{{statistic.special_defense}}</td>
+               <td>{{statistic.speed}}</td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+</div>
+<div class="row">
+   <div class="col-12">
+      <div class="btn-toolbar" role="toolbar">
+         <div class="btn-group mr-2" role="group">
+            <button type="button" class="btn btn-light" *ngIf="currentPage === 1" title="Primera Página" disabled>Primera</button>
+            <button type="button" class="btn btn-light" *ngIf="currentPage !== 1" title="Primera Página" (click)="goToPage(1)">Primera</button>
+            <button type="button" class="btn btn-light" *ngIf="currentPage > 1" title="Página Anterior" (click)="goToPage((currentPage*1) - 1)">{{(currentPage * 1) - 1}}</button>
+            <button type="button" class="btn btn-primary" title="Página Actual">{{currentPage}}</button>
+            <button type="button" class="btn btn-light" *ngIf="currentPage < lastPage" title="Página Siguiente" (click)="goToPage((currentPage*1) + 1)">{{(currentPage * 1) + 1}}</button>
+            <button type="button" class="btn btn-light" *ngIf="currentPage !== lastPage" title="Última Página" (click)="goToPage(lastPage)">Última</button>
+            <button type="button" class="btn btn-light" *ngIf="currentPage === lastPage" title="Última Página" disabled>Última</button>
+         </div>
+         <div class="input-group">
+            <div class="input-group-prepend">
+               <button type="button" class="input-group-text btn btn-success" title="Ir a la Página" (click)="goToPage(goToPageNumber.value)">Ir a</button>
+            </div>
+            <input type="number" min="{{1}}" max="{{lastPage}}" class="form-control" placeholder="Ir a la Página" #goToPageNumber>
+         </div>
+      </div>
+   </div>
+</div>
+<ng-template #content let-modal>
+   <div class="modal-header">
+      <h4 class="modal-title">Datos:</h4>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')">
+         <span>&times;</span>
+      </button>
+   </div>
+   <div class="modal-body">
+      <div class="row">
+         <div class="col-12">
+            <div class="form-group row">
+               <label for="hp" class="col-4 col-form-label">hp</label>
+               <div class="col-8">
+                  <input type="number" class="form-control" id="hp" name="hp" placeholder="hp" [(ngModel)]="statisticSelected.hp">
+               </div>
+            </div>
+            <div class="form-group row">
+               <label for="attack" class="col-4 col-form-label">attack</label>
+               <div class="col-8">
+                  <input type="number" class="form-control" id="attack" name="attack" placeholder="attack" [(ngModel)]="statisticSelected.attack">
+               </div>
+            </div>
+            <div class="form-group row">
+               <label for="defense" class="col-4 col-form-label">defense</label>
+               <div class="col-8">
+                  <input type="number" class="form-control" id="defense" name="defense" placeholder="defense" [(ngModel)]="statisticSelected.defense">
+               </div>
+            </div>
+            <div class="form-group row">
+               <label for="special_attack" class="col-4 col-form-label">special_attack</label>
+               <div class="col-8">
+                  <input type="number" class="form-control" id="special_attack" name="special_attack" placeholder="specialAttack" [(ngModel)]="statisticSelected.special_attack">
+               </div>
+            </div>
+            <div class="form-group row">
+               <label for="special_defense" class="col-4 col-form-label">special_defense</label>
+               <div class="col-8">
+                  <input type="number" class="form-control" id="special_defense" name="special_defense" placeholder="specialDefense" [(ngModel)]="statisticSelected.special_defense">
+               </div>
+            </div>
+            <div class="form-group row">
+               <label for="speed" class="col-4 col-form-label">speed</label>
+               <div class="col-8">
+                  <input type="number" class="form-control" id="speed" name="speed" placeholder="speed" [(ngModel)]="statisticSelected.speed">
+               </div>
+            </div>
+            <div class="form-group row">
+               <label for="statistic_type_id" class="col-4 col-form-label">StatisticType</label>
+               <div class="col-8">
+                  <select class="form-control" id="statistic_type_id" name="statistic_type_id" [(ngModel)]="statisticSelected.statistic_type_id">
+                     <option value="0" selected>Seleccione...</option>
+                     <option *ngFor="let statistic_type of statistic_types" value={{statistic_type.id}}>
+                        {{statistic_type.id}}
+                     </option>
+                  </select>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success" (click)="modal.close('Guardar click')">Guardar</button>
+      <button type="button" class="btn btn-outline-danger" (click)="modal.close('Cancelar click')">Cancelar</button>
+   </div>
+</ng-template>
