@@ -7,8 +7,11 @@ import { environment } from './../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
+  options = {headers: null}; 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.options.headers = new HttpHeaders({'api_token': sessionStorage.getItem('api_token')});
+  }
   
   login(email: String, password: String): Promise<any> {
     const data = {email: email, password: password};
@@ -43,8 +46,7 @@ export class AuthService {
   password_change(new_password: String): Promise<any> {
     const data = {new_password: new_password};
     const options = {headers: null};
-    options.headers = new HttpHeaders();
-    options.headers.append('api_token', sessionStorage.getItem('api_token'));
+    options.headers = new HttpHeaders({'api_token': sessionStorage.getItem('api_token')});
     return this.http.post(environment.api_lspokecalc + 'user/password_change', JSON.stringify(data), options).toPromise()
     .then( r =>
       r
