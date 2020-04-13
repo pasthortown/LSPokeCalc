@@ -25,7 +25,11 @@ class ProfilePictureController extends Controller
     function paginate(Request $data)
     {
        $size = $data['size'];
-       return response()->json(ProfilePicture::paginate($size),200);
+       try{
+         return response()->json(ProfilePicture::paginate($size),200);
+       } catch (Exception $e) {
+         return response()->json(['data'=>[]],200);
+       }
     }
 
     function post(Request $data)
